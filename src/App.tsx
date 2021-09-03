@@ -1,19 +1,14 @@
 import React from 'react';
 import './App.css';
 import {LoggedOutRouter} from "./routers/logged-out-router";
-import {gql, useQuery} from "@apollo/client";
-
-const IS_LOGGED_IN = gql`
-    query isLoggedIn {
-        isLoggedIn @client
-    }
-`;
+import { useReactiveVar} from "@apollo/client";
+import {LoggedInRouter} from "./routers/logged-in-router";
+import {isLoggedInVar} from "./apollo";
 
 function App() {
-    const {data} = useQuery(IS_LOGGED_IN)
-    console.log(data);
+    const isLoggedIn = useReactiveVar(isLoggedInVar)
     return (
-        <LoggedOutRouter/>
+        isLoggedIn ? <LoggedInRouter/> : <LoggedOutRouter/>
     );
 }
 
